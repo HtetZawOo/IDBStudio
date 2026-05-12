@@ -12,7 +12,7 @@ let velocityPitch = 0;
 const sensitivity = 0.5;
 const deadZone = 0.1;
 const smoothFactor = 0.05;
-const rotationSpeed = 0.03;
+const rotationSpeed = 0.02;
 
 init();
 animate();
