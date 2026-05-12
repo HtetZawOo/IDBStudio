@@ -72,7 +72,7 @@ function setupGaze() {
 
     // 🎮 treat as velocity, not position
     targetYaw = -dx * sensitivity;   // fixes left/right
-    targetPitch = dy * sensitivity;  // fixes up/down
+    targetPitch = -dy * sensitivity;  // fixes up/down
   };
 
   GazeCloudAPI.StartEyeTracking();
