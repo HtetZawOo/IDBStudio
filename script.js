@@ -1,3 +1,5 @@
+let yawObject;
+let pitchObject;
 let camera, scene, renderer;
 
 // 🎯 gaze targets
@@ -23,12 +25,21 @@ animate();
 function init() {
   scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    1,
-    1100
-  );
+camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  1,
+  1100
+);
+
+// 🎮 FPS-style rotation hierarchy
+yawObject = new THREE.Object3D();
+pitchObject = new THREE.Object3D();
+
+pitchObject.add(camera);
+yawObject.add(pitchObject);
+
+scene.add(yawObject);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -39,7 +50,7 @@ function init() {
   geometry.scale(-1, 1, 1);
 
   const texture = new THREE.TextureLoader().load(
-    "https://threejs.org/examples/textures/2294472375_24a3b8ef46_o.jpg"
+    "https://cdn.polyhaven.com/asset_img/primary/brown_photostudio_02.png?height=780"
   );
 
   const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -89,14 +100,17 @@ function animate() {
   velocityPitch += (targetPitch - velocityPitch) * smoothFactor;
 
   // 🐢 slow rotation (comfortable)
-  camera.rotation.y += velocityYaw * rotationSpeed;
-  camera.rotation.x += velocityPitch * rotationSpeed;
+ // 🌍 horizontal rotation
+yawObject.rotation.y += velocityYaw * rotationSpeed;
 
-  // ⛔ clamp vertical rotation
-  camera.rotation.x = Math.max(
-    -Math.PI / 2,
-    Math.min(Math.PI / 2, camera.rotation.x)
-  );
+// 🎯 vertical rotation
+pitchObject.rotation.x += velocityPitch * rotationSpeed;
+
+// ⛔ clamp vertical angle
+pitchObject.rotation.x = Math.max(
+  -Math.PI / 2,
+  Math.min(Math.PI / 2, pitchObject.rotation.x)
+);
 
   renderer.render(scene, camera);
 }
