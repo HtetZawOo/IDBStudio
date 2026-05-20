@@ -50,7 +50,7 @@ scene.add(yawObject);
   geometry.scale(-1, 1, 1);
 
   const texture = new THREE.TextureLoader().load(
-    "https://cdn.polyhaven.com/asset_img/primary/brown_photostudio_02.png?height=780"
+    "Pano_JPEGs\\studioroom.jpg"
   );
 
   const material = new THREE.MeshBasicMaterial({ map: texture });
